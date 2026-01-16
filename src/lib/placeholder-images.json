@@ -1,3 +1,58 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero",
+      "description": "Courthouse columns background",
+      "imageUrl": "https://images.unsplash.com/photo-1758413149985-acd44fa6eae6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxjb3VydGhvdXNlJTIwY29sdW1uc3xlbnwwfHx8fDE3Njg1NjgzODZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "courthouse columns"
+    },
+    {
+      "id": "professor-portrait",
+      "description": "Portrait of Professor Idem Udosen Jacob",
+      "imageUrl": "https://images.unsplash.com/photo-1680260086952-72bf60ecd6e4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxwcm9mZXNzb3IlMjBwb3J0cmFpdHxlbnwwfHx8fDE3Njg1MzgxOTV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "professor portrait"
+    },
+    {
+      "id": "expertise-criminal",
+      "description": "Gavel and law book for criminal justice expertise",
+      "imageUrl": "https://images.unsplash.com/photo-1767972159871-b9f5d320be2b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxnYXZlbCUyMGxhd3xlbnwwfHx8fDE3Njg1NjgzODd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "gavel law"
+    },
+    {
+      "id": "expertise-commercial",
+      "description": "Skyscrapers for company and commercial law",
+      "imageUrl": "https://images.unsplash.com/photo-1603549620052-ddbb4b72340d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxza3lzY3JhcGVycyUyMGNpdHl8ZW58MHx8fHwxNzY4NTY4Mzg2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "skyscrapers city"
+    },
+    {
+      "id": "expertise-evidence",
+      "description": "Scales of justice for evidence and procedure",
+      "imageUrl": "https://images.unsplash.com/photo-1760089449852-e8cade7feb53?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzY2FsZXMlMjBqdXN0aWNlfGVufDB8fHx8MTc2ODU2ODM4N3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "scales justice"
+    },
+    {
+      "id": "publication-1",
+      "description": "Cover for publication on plea bargaining",
+      "imageUrl": "https://images.unsplash.com/photo-1535398089889-dd807df1dfaa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxib29rJTIwY292ZXJ8ZW58MHx8fHwxNzY4NTUyMTQ3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "book cover"
+    },
+    {
+      "id": "publication-2",
+      "description": "Cover for publication on criminal justice administration",
+      "imageUrl": "https://images.unsplash.com/photo-1528459105426-b9548367069b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxib29rJTIwY292ZXJ8ZW58MHx8fHwxNzY4NTUyMTQ3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "book cover"
+    },
+    {
+      "id": "publication-3",
+      "description": "Cover for publication on corporate manslaughter",
+      "imageUrl": "https://images.unsplash.com/photo-1633477189729-9290b3261d0a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxib29rJTIwY292ZXJ8ZW58MHx8fHwxNzY4NTUyMTQ3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "book cover"
+    },
+    {
+      "id": "speaking-event",
+      "description": "Audience at a speaking event",
+      "imageUrl": "https://images.unsplash.com/photo-1515187029135-18ee286d815b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y29uZmVyZW5jZSUyMGF1ZGllbmNlfGVufDB8fHx8MTc2ODU2ODM4Nnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "conference audience"
+    }
+  ]
 }
