@@ -137,11 +137,11 @@ export default function ContactPage() {
                              <div className="mt-6 space-y-4">
                                 <div className="flex items-center">
                                     <Mail className="h-5 w-5 mr-3 text-accent"/>
-                                    <a href="mailto:info@idemlegal.com" className="text-muted-foreground hover:text-foreground">info@idemlegal.com</a>
+                                    <a href="mailto:idemudosen@gmail.com" className="text-muted-foreground hover:text-foreground">idemudosen@gmail.com</a>
                                 </div>
                                  <div className="flex items-center">
                                     <Phone className="h-5 w-5 mr-3 text-accent"/>
-                                    <a href="tel:+1234567890" className="text-muted-foreground hover:text-foreground">+123 456 7890</a>
+                                    <a href="tel:+2348106468420" className="text-muted-foreground hover:text-foreground">+2348106468420</a>
                                 </div>
                              </div>
                         </div>
