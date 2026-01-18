@@ -58,7 +58,7 @@ export default function Home() {
               Professor Idem Udosen Jacob
             </h1>
             <p className="mt-4 text-xl md:text-2xl text-primary-foreground/90">
-              Associate Professor of Law
+              Professor of Law
               <br />
               Expert in Corporate Law, Criminal Justice, and Evidence.
             </p>

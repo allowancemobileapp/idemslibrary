@@ -6,8 +6,8 @@ import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 
 export const metadata: Metadata = {
-  title: 'Idem Legal | Professor Idem Udosen Jacob',
-  description: 'Official website for Professor Idem Udosen Jacob — Associate Professor of Law and legal scholar.',
+  title: 'Idem Library | Professor Idem Udosen Jacob',
+  description: 'Official website for Professor Idem Udosen Jacob — Professor of Law and legal scholar.',
 };
 
 export default function RootLayout({
