@@ -15,6 +15,7 @@ const navLinks = [
   { href: '/about', label: 'About' },
   { href: '/expertise', label: 'Expertise' },
   { href: '/publications', label: 'Publications' },
+  { href: '/books', label: 'Books' },
   { href: '/speaking', label: 'Speaking' },
   { href: '/contact', label: 'Contact' },
 ];
