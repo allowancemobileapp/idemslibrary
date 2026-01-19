@@ -7,8 +7,8 @@ import { Download } from 'lucide-react';
 const professorImage = PlaceHolderImages.find((img) => img.id === 'professor-portrait');
 
 const education = [
-    { degree: 'Ph.D. in Law', institution: 'University of Uyo' },
-    { degree: 'LL.M in Industrial and Corporate Law', institution: 'University of Uyo' },
+    { degree: 'Ph.D. in Private and Public Law', institution: 'University of Nigeria, Nsukka' },
+    { degree: 'LL.M', institution: 'University of Uyo' },
     { degree: 'Called to the Nigerian Bar', institution: 'Nigerian Law School, Lagos' },
     { degree: 'LL.B (Hons)', institution: 'University of Uyo' },
 ];
