@@ -152,22 +152,8 @@ export default function Home() {
           </div>
           <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {publications.map((pub) => {
-              const pubImage = PlaceHolderImages.find(p => p.id === pub.imageId);
               return (
                 <Card key={pub.title} className="flex flex-col overflow-hidden">
-                  <CardHeader className="p-0">
-                    {pubImage && (
-                       <div className="aspect-video relative">
-                          <Image
-                            src={pubImage.imageUrl}
-                            alt={pubImage.description}
-                            fill
-                            className="object-cover"
-                            data-ai-hint={pubImage.imageHint}
-                          />
-                       </div>
-                    )}
-                  </CardHeader>
                   <CardContent className="flex-grow p-6">
                     <p className="text-sm font-semibold text-accent">{pub.year}</p>
                     <h3 className="font-headline text-lg font-semibold mt-2">{pub.title}</h3>

@@ -1,5 +1,4 @@
-import Image from 'next/image';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
+
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ExternalLink, Filter } from 'lucide-react';
@@ -91,20 +90,8 @@ export default function PublicationsPage() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {allPublications.map((pub) => {
-                             const pubImage = PlaceHolderImages.find(p => p.id === pub.imageId);
                              return (
                                 <Card key={pub.title} className="flex flex-col overflow-hidden hover:shadow-xl transition-shadow">
-                                    {pubImage && (
-                                        <div className="aspect-video relative">
-                                            <Image
-                                               src={pubImage.imageUrl}
-                                               alt={pub.title}
-                                               fill
-                                               className="object-cover"
-                                               data-ai-hint={pubImage.imageHint}
-                                             />
-                                        </div>
-                                    )}
                                     <CardHeader>
                                         <div className="flex justify-between items-center text-sm text-muted-foreground">
                                             <span>{pub.topic}</span>
