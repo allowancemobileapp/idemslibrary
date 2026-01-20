@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -7,6 +8,14 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const allBooks = [
+    { 
+        title: 'Introduction to Legal Practice and Lawyering Skills in Nigeria', 
+        year: '2021',
+        topic: 'Legal Practice', 
+        summary: 'Co-authored by Prof. Udosen Jacob Idem, this book provides an essential guide to legal practice and lawyering skills in Nigeria.', 
+        imageId: 'book-cover-legal-practice',
+        href: '/books/introduction-to-legal-practice' 
+    },
     { title: 'The Nigerian Law of Evidence', year: '2022', topic: 'Evidence Law', summary: 'A comprehensive guide to the principles and application of evidence law in Nigeria, post-2011 Evidence Act.', imageId: 'book-cover-1' },
     { title: 'Corporate Governance and Practices in Nigeria', year: '2021', topic: 'Commercial Law', summary: 'An in-depth analysis of corporate governance frameworks, exploring the roles of management and boards.', imageId: 'book-cover-2' },
     { title: 'Criminal Procedure in Nigerian Courts', year: '2023', topic: 'Criminal Justice', summary: 'This book provides a procedural roadmap for criminal litigation, from arrest to appeal.', imageId: 'book-cover-3' },
@@ -38,6 +47,7 @@ export default function BooksPage() {
                                         <SelectValue placeholder="Filter by Topic" />
                                     </SelectTrigger>
                                     <SelectContent>
+                                        <SelectItem value="legal-practice">Legal Practice</SelectItem>
                                         <SelectItem value="criminal">Criminal Justice</SelectItem>
                                         <SelectItem value="commercial">Commercial Law</SelectItem>
                                         <SelectItem value="evidence">Evidence Law</SelectItem>
@@ -64,7 +74,7 @@ export default function BooksPage() {
                              return (
                                 <Card key={book.title} className="flex flex-col overflow-hidden hover:shadow-xl transition-shadow">
                                     {bookImage && (
-                                        <div className="aspect-video relative">
+                                        <div className="aspect-[3/4] relative">
                                             <Image
                                                src={bookImage.imageUrl}
                                                alt={book.title}
@@ -85,12 +95,21 @@ export default function BooksPage() {
                                         <p className="text-muted-foreground text-sm">{book.summary}</p>
                                     </CardContent>
                                     <CardFooter>
-                                        <Button className="w-full" asChild>
-                                          <a href="/sample.pdf" download>
-                                            <Download className="mr-2 h-4 w-4" />
-                                            Download Sample Chapter
-                                          </a>
-                                        </Button>
+                                        {book.href ? (
+                                            <Button className="w-full" asChild>
+                                                <Link href={book.href}>
+                                                    <Book className="mr-2 h-4 w-4" />
+                                                    View Details
+                                                </Link>
+                                            </Button>
+                                        ) : (
+                                            <Button className="w-full" asChild>
+                                                <a href="/sample.pdf" download>
+                                                    <Download className="mr-2 h-4 w-4" />
+                                                    Download Sample Chapter
+                                                </a>
+                                            </Button>
+                                        )}
                                     </CardFooter>
                                 </Card>
                              )

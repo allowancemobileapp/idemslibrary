@@ -71,6 +71,12 @@
       "description": "Audience at a speaking event",
       "imageUrl": "https://images.unsplash.com/photo-1515187029135-18ee286d815b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y29uZmVyZW5jZSUyMGF1ZGllbmNlfGVufDB8fHx8MTc2ODU2ODM4Nnww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "conference audience"
+    },
+    {
+      "id": "book-cover-legal-practice",
+      "description": "Cover for Introduction to Legal Practice and Lawyering Skills in Nigeria",
+      "imageUrl": "https://images.unsplash.com/photo-1511721511189-ca0a98b3229e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxsYXclMjBib29rfGVufDB8fHx8MTc2ODkxNTc1Mnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "law book"
     }
   ]
 }
