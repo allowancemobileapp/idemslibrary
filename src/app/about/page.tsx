@@ -14,9 +14,8 @@ const education = [
 ];
 
 const roles = [
-    { role: 'Senior Lecturer', department: 'Department of Private & Business Law', institution: 'Afe Babalola University, Ado-Ekiti' },
-    { role: 'Head of Research Lab', institution: 'Afe Babalola University, Ado-Ekiti' },
-    { role: 'Former Lecturer', institution: 'University of Uyo' },
+    { role: 'Professor of Law', institution: 'Afe Babalola University, Ado-Ekiti' },
+    { role: 'Former Chief Magistrate', institution: 'Akwa Ibom State Judiciary' },
 ];
 
 export default function AboutPage() {
@@ -50,7 +49,7 @@ export default function AboutPage() {
                         <div>
                             <h2 className="font-headline text-3xl font-bold border-l-4 border-accent pl-4">Professional Journey</h2>
                             <div className='space-y-4 mt-6 text-muted-foreground'>
-                                <p>Professor Idem Udosen Jacob is a seasoned law academic and consultant. He holds a Ph.D. and lectures in the Department of Private & Business Law at Afe Babalola University, Ado-Ekiti, where he heads a research lab and formerly taught at the University of Uyo. His scholarship spans corporate/commercial law, criminal justice, evidence law, and legal education.</p>
+                                <p>Professor Idem Udosen Jacob is a seasoned law academic and consultant. He is a Professor of Law at Afe Babalola University, Ado-Ekiti, and a former Chief Magistrate of the Akwa Ibom State Judiciary. His scholarship spans corporate/commercial law, criminal justice, evidence law, and legal education.</p>
                                 <p>He has authored and co-authored multiple peer-reviewed articles and books on these subjects, contributing regularly to legal scholarship. His practice/consulting expertise includes Criminal Law & Justice, Company & Commercial Law, Evidence & Procedure, and Legal Policy. With extensive experience teaching and mentoring law students, he offers expert legal consultancy in his areas of specialization.</p>
                             </div>
                         </div>
@@ -76,7 +75,7 @@ export default function AboutPage() {
                                     <Card key={index}>
                                         <CardHeader>
                                             <CardTitle className="text-lg font-body font-bold">{item.role}</CardTitle>
-                                            <p className="text-sm text-muted-foreground">{item.department ? `${item.department}, ${item.institution}` : item.institution}</p>
+                                            <p className="text-sm text-muted-foreground">{item.institution}</p>
                                         </CardHeader>
                                     </Card>
                                 ))}
