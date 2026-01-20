@@ -92,10 +92,10 @@ export default function Home() {
           <div className="md:col-span-2">
             <h2 className="font-headline text-3xl md:text-4xl font-bold">About Professor Jacob</h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              Professor Idem Udosen Jacob is a seasoned law academic and consultant. He is a Professor of Law at Afe Babalola University, Ado-Ekiti, and a former Chief Magistrate of the Akwa Ibom State Judiciary. His research and practice focus on Criminal Law and Justice, Company & Commercial Law, and Evidence Law.
+            Professor Udosen Jacob Idem, PhD, FCArb is a seasoned legal academic and consultant. He is currently a lecturer in the College of Law at Afe Babalola University, Ado-Ekiti, where he also serves as the Head of the Department of Private and Business Law. He has previously served as a Senior State Counsel in the Ministry of Justice and as a Chief Magistrate in the Akwa Ibom State Judiciary.
             </p>
             <p className="mt-4 text-muted-foreground">
-              Prof. Idem is author of multiple peer-reviewed articles and book chapters in these fields, and he regularly contributes to legal education and policy discussions. He has extensive experience teaching and mentoring law students, and offers expert legal consultancy in his areas of specialization.
+            His practice and consultancy expertise span Criminal Law and Justice, Company and Commercial Law, Evidence and Procedure, and Legal Policy. With extensive experience in teaching and mentoring law students, he offers expert legal consultancy services within his areas of specialisation.
             </p>
             <Button asChild className="mt-8">
               <Link href="/about">Learn More <ArrowRight className="ml-2" /></Link>
