@@ -16,6 +16,14 @@ const allBooks = [
         imageId: 'book-cover-legal-practice',
         href: '/books/introduction-to-legal-practice' 
     },
+    { 
+        title: 'Law of Banking and Insurance in Nigeria', 
+        year: '2024',
+        topic: 'Banking & Insurance', 
+        summary: 'A comprehensive guide to the law of banking and insurance in Nigeria, including e-banking and cashless policy.', 
+        imageId: 'book-cover-banking-insurance',
+        href: '/books/law-of-banking-and-insurance' 
+    },
     { title: 'The Nigerian Law of Evidence', year: '2022', topic: 'Evidence Law', summary: 'A comprehensive guide to the principles and application of evidence law in Nigeria, post-2011 Evidence Act.', imageId: 'book-cover-1' },
     { title: 'Corporate Governance and Practices in Nigeria', year: '2021', topic: 'Commercial Law', summary: 'An in-depth analysis of corporate governance frameworks, exploring the roles of management and boards.', imageId: 'book-cover-2' },
     { title: 'Criminal Procedure in Nigerian Courts', year: '2023', topic: 'Criminal Justice', summary: 'This book provides a procedural roadmap for criminal litigation, from arrest to appeal.', imageId: 'book-cover-3' },
@@ -48,6 +56,7 @@ export default function BooksPage() {
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectItem value="legal-practice">Legal Practice</SelectItem>
+                                        <SelectItem value="banking-insurance">Banking & Insurance</SelectItem>
                                         <SelectItem value="criminal">Criminal Justice</SelectItem>
                                         <SelectItem value="commercial">Commercial Law</SelectItem>
                                         <SelectItem value="evidence">Evidence Law</SelectItem>
@@ -58,6 +67,7 @@ export default function BooksPage() {
                                         <SelectValue placeholder="Filter by Year" />
                                     </SelectTrigger>
                                     <SelectContent>
+                                        <SelectItem value="2024">2024</SelectItem>
                                         <SelectItem value="2023">2023</SelectItem>
                                         <SelectItem value="2022">2022</SelectItem>
                                         <SelectItem value="2021">2021</SelectItem>
