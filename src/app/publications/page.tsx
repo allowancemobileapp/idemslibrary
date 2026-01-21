@@ -1,9 +1,23 @@
+'use client';
 
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ExternalLink, Filter } from 'lucide-react';
+import { Filter, ShoppingCart } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { useToast } from '@/hooks/use-toast';
 
 const allPublications = [
     { title: 'The Application of Plea Bargaining and Restorative Justice in Criminal Trials in Nigeria', year: '2019', topic: 'Criminal Justice', summary: 'Analyzes plea bargaining in Nigerian law, comparing with India and Pakistan models to recommend legislative rules.', imageId: 'publication-1', url: '/sample.pdf' },
@@ -41,10 +55,58 @@ const allPublications = [
     { title: 'WOMEN ACCESS TO JUSTICE IN NIGERIA', year: '', topic: 'Criminal Justice', summary: 'On women\'s access to justice in Nigeria.', imageId: 'publication-3', url: 'https://docs.google.com/document/d/1i-ShgVg9vExAM-vhnwS8d4d8KWt6hpmu1Cp82nnbaa8/edit?usp=drive_link' },
 ];
 
+const formSchema = z.object({
+  name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
+  email: z.string().email({ message: 'Please enter a valid email address.' }),
+});
+
+type Publication = (typeof allPublications)[0];
+
+const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.204-1.634a11.86 11.86 0 005.785 1.63c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" fill="currentColor"/>
+    </svg>
+);
+
 
 export default function PublicationsPage() {
     const years = [...new Set(allPublications.map(p => p.year).filter(y => y))].sort((a, b) => b.localeCompare(a));
     const topics = [...new Set(allPublications.map(p => p.topic).filter(t => t))].sort();
+
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [selectedPub, setSelectedPub] = useState<Publication | null>(null);
+
+    const { toast } = useToast();
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            name: '',
+            email: '',
+        },
+    });
+
+    const handlePurchaseClick = (publication: Publication) => {
+        setSelectedPub(publication);
+        form.reset();
+        setIsDialogOpen(true);
+    };
+
+    function onSubmit(values: z.infer<typeof formSchema>) {
+        if (!selectedPub) return;
+        const whatsAppNumber = "2348106468420";
+        const messageBody = `Hello, I would like to purchase the article "${selectedPub.title}".\n\nMy Details:\nName: ${values.name}\nEmail: ${values.email}\n\nPlease send me the account details for payment of N1000. Thank you.`;
+        const encodedMessage = encodeURIComponent(messageBody);
+        const whatsappUrl = `https://wa.me/${whatsAppNumber}?text=${encodedMessage}`;
+        
+        window.open(whatsappUrl, '_blank');
+
+        toast({
+            title: "Redirecting to WhatsApp",
+            description: "Please complete the purchase process on WhatsApp.",
+        });
+        form.reset();
+        setIsDialogOpen(false);
+    }
 
     return (
         <>
@@ -103,11 +165,9 @@ export default function PublicationsPage() {
                                         <p className="text-muted-foreground text-sm">{pub.summary}</p>
                                     </CardContent>
                                     <CardFooter>
-                                        <Button className="w-full" asChild>
-                                          <a href={pub.url} target="_blank" rel="noopener noreferrer">
-                                            <ExternalLink className="mr-2 h-4 w-4" />
-                                            Read More
-                                          </a>
+                                       <Button className="w-full" onClick={() => handlePurchaseClick(pub)}>
+                                            <ShoppingCart className="mr-2 h-4 w-4" />
+                                            Purchase Article (N1000)
                                         </Button>
                                     </CardFooter>
                                 </Card>
@@ -116,6 +176,52 @@ export default function PublicationsPage() {
                     </div>
                 </div>
             </section>
+             {selectedPub && (
+                <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                    <DialogContent>
+                        <DialogHeader>
+                            <DialogTitle>Purchase Article</DialogTitle>
+                            <DialogDescription>
+                                To receive a copy of "{selectedPub.title}", please provide your details. You will be redirected to WhatsApp to complete the purchase.
+                            </DialogDescription>
+                        </DialogHeader>
+                        <Form {...form}>
+                            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                                <FormField
+                                    control={form.control}
+                                    name="name"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Full Name</FormLabel>
+                                            <FormControl>
+                                                <Input placeholder="John Doe" {...field} />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="email"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Email Address</FormLabel>
+                                            <FormControl>
+                                                <Input type="email" placeholder="john.doe@example.com" {...field} />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                 <Button type="submit" className="w-full bg-[#25D366] hover:bg-[#1DAE5A] text-white" size="lg">
+                                    <WhatsAppIcon className="mr-2 h-5 w-5" />
+                                    Proceed to WhatsApp
+                                </Button>
+                            </form>
+                         </Form>
+                    </DialogContent>
+                </Dialog>
+            )}
         </>
     );
 }
