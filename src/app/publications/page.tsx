@@ -101,7 +101,7 @@ export default function PublicationsPage() {
     const handlePayment = (values: z.infer<typeof formSchema>) => {
         if (!selectedPub) return;
 
-        const flutterwaveKey = "FLWPUBK_TEST-8f173fb39182df82191a8366a28b195f-X";
+        const flutterwaveKey = "FLWPUBK-ba0271264e7bbf8b88ba7fa43ebaa0ad-X";
         const txRef = `PUB-${Date.now()}-${Math.floor(Math.random() * 1000000)}`;
 
         // @ts-ignore

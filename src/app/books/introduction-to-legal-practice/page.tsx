@@ -43,7 +43,7 @@ export default function BookDetailPage() {
     });
 
     const handlePayment = (values: z.infer<typeof formSchema>) => {
-        const flutterwaveKey = "FLWPUBK_TEST-8f173fb39182df82191a8366a28b195f-X";
+        const flutterwaveKey = "FLWPUBK-ba0271264e7bbf8b88ba7fa43ebaa0ad-X";
         const txRef = `BOOK1-${Date.now()}-${Math.floor(Math.random() * 1000000)}`;
 
         // @ts-ignore
@@ -418,6 +418,8 @@ export default function BookDetailPage() {
                                                         <li>Meaning of Contempt of Court</li>
                                                         <li>The Purpose of Contempt of Court</li>
                                                         <li>Types of Contempt</li>
+                                                        <li>Criminal Contempt</li>
+                                                        <li>Civil Contempt</li>
                                                         <li>Conducts and Acts that Amount to Contempt</li>
                                                         <li>Standard of Proof in Contempt Proceedings</li>
                                                         <li>The Procedure of Trial of Contempt</li>
