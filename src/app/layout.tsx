@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
+import Script from 'next/script';
 
 export const metadata: Metadata = {
   title: 'Idem Library | Professor Idem Udosen Jacob',
@@ -29,6 +30,7 @@ export default function RootLayout({
           <Footer />
         </div>
         <Toaster />
+        <Script src="https://checkout.flutterwave.com/v3.js" strategy="lazyOnload" />
       </body>
     </html>
   );

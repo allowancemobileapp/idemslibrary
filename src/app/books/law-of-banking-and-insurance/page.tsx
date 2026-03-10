@@ -20,7 +20,7 @@ import {
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { BookText, FileText, ShoppingCart, UserSquare } from 'lucide-react';
+import { BookText, FileText, ShoppingCart, CheckCircle2 } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 const bookImage = PlaceHolderImages.find((img) => img.id === 'book-cover-banking-insurance');
@@ -30,14 +30,9 @@ const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
 });
 
-const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.204-1.634a11.86 11.86 0 005.785 1.63c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" fill="currentColor"/>
-    </svg>
-);
-
 export default function BookDetailPage() {
     const [open, setOpen] = useState(false);
+    const [paymentSuccess, setPaymentSuccess] = useState(false);
     const { toast } = useToast();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -47,21 +42,52 @@ export default function BookDetailPage() {
         },
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        const whatsAppNumber = "2348106468420";
-        const messageBody = `Hello, I would like to purchase the book 'Law of Banking and Insurance in Nigeria'.\n\nMy Details:\nName: ${values.name}\nEmail: ${values.email}\n\nPlease send me the account details for payment. Thank you.`;
-        const encodedMessage = encodeURIComponent(messageBody);
-        const whatsappUrl = `https://wa.me/${whatsAppNumber}?text=${encodedMessage}`;
-        
-        window.open(whatsappUrl, '_blank');
+    const handlePayment = (values: z.infer<typeof formSchema>) => {
+        const flutterwaveKey = "FLWPUBK_TEST-8f173fb39182df82191a8366a28b195f-X";
+        const txRef = `BOOK2-${Date.now()}-${Math.floor(Math.random() * 1000000)}`;
 
-        toast({
-            title: "Redirecting to WhatsApp",
-            description: "Please complete the purchase process on WhatsApp.",
-        });
-        form.reset();
-        setOpen(false);
-    }
+        // @ts-ignore
+        if (window.FlutterwaveCheckout) {
+            // @ts-ignore
+            window.FlutterwaveCheckout({
+                public_key: flutterwaveKey,
+                tx_ref: txRef,
+                amount: 15000,
+                currency: "NGN",
+                payment_options: "card, banktransfer, ussd",
+                customer: {
+                    email: values.email,
+                    name: values.name,
+                },
+                customizations: {
+                    title: "Idem Library",
+                    description: "Purchase: Law of Banking and Insurance",
+                    logo: "https://picsum.photos/seed/legal/200/200",
+                },
+                callback: (data: any) => {
+                    setPaymentSuccess(true);
+                    toast({
+                        title: "Payment Successful",
+                        description: "Redirecting you to WhatsApp to coordinate your order.",
+                    });
+
+                    const whatsAppNumber = "2348106468420";
+                    const messageBody = `Hello, I just paid N15000 for the book "Law of Banking and Insurance in Nigeria".\n\nTransaction Ref: ${data.tx_ref}\nEmail: ${values.email}\nName: ${values.name}\n\nPlease confirm receipt and let me know about the delivery. Thank you.`;
+                    const whatsappUrl = `https://wa.me/${whatsAppNumber}?text=${encodeURIComponent(messageBody)}`;
+                    
+                    setTimeout(() => {
+                        window.open(whatsappUrl, '_blank');
+                    }, 2000);
+                },
+            });
+        } else {
+            toast({
+                variant: "destructive",
+                title: "Error",
+                description: "Payment system is loading. Please try again.",
+            });
+        }
+    };
     
     return (
         <>
@@ -99,45 +125,55 @@ export default function BookDetailPage() {
                                         </DialogTrigger>
                                         <DialogContent>
                                             <DialogHeader>
-                                                <DialogTitle>Purchase Confirmation</DialogTitle>
+                                                <DialogTitle>{paymentSuccess ? 'Payment Successful' : 'Complete Purchase'}</DialogTitle>
                                                 <DialogDescription>
-                                                    To purchase the book, please provide your details. You will be redirected to WhatsApp to complete the transaction.
+                                                    {paymentSuccess 
+                                                        ? 'Verification complete. Opening WhatsApp to coordinate delivery.' 
+                                                        : 'Enter your details to pay N15,000 for this book.'}
                                                 </DialogDescription>
                                             </DialogHeader>
-                                            <Form {...form}>
-                                                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                                                    <FormField
-                                                        control={form.control}
-                                                        name="name"
-                                                        render={({ field }) => (
-                                                            <FormItem>
-                                                                <FormLabel>Full Name</FormLabel>
-                                                                <FormControl>
-                                                                    <Input placeholder="John Doe" {...field} />
-                                                                </FormControl>
-                                                                <FormMessage />
-                                                            </FormItem>
-                                                        )}
-                                                    />
-                                                    <FormField
-                                                        control={form.control}
-                                                        name="email"
-                                                        render={({ field }) => (
-                                                            <FormItem>
-                                                                <FormLabel>Email Address</FormLabel>
-                                                                <FormControl>
-                                                                    <Input type="email" placeholder="john.doe@example.com" {...field} />
-                                                                </FormControl>
-                                                                <FormMessage />
-                                                            </FormItem>
-                                                        )}
-                                                    />
-                                                    <Button type="submit" className="w-full bg-[#25D366] hover:bg-[#1DAE5A] text-white" size="lg">
-                                                        <WhatsAppIcon className="mr-2 h-5 w-5" />
-                                                        Proceed to WhatsApp
-                                                    </Button>
-                                                </form>
-                                            </Form>
+
+                                            {paymentSuccess ? (
+                                                <div className="flex flex-col items-center justify-center py-6 text-center">
+                                                    <CheckCircle2 className="h-16 w-16 text-green-500 mb-4" />
+                                                    <p className="font-medium">Order Notified</p>
+                                                    <p className="text-sm text-muted-foreground mt-2">Redirecting to WhatsApp...</p>
+                                                </div>
+                                            ) : (
+                                                <Form {...form}>
+                                                    <form onSubmit={form.handleSubmit(handlePayment)} className="space-y-6">
+                                                        <FormField
+                                                            control={form.control}
+                                                            name="name"
+                                                            render={({ field }) => (
+                                                                <FormItem>
+                                                                    <FormLabel>Full Name</FormLabel>
+                                                                    <FormControl>
+                                                                        <Input placeholder="John Doe" {...field} />
+                                                                    </FormControl>
+                                                                    <FormMessage />
+                                                                </FormItem>
+                                                            )}
+                                                        />
+                                                        <FormField
+                                                            control={form.control}
+                                                            name="email"
+                                                            render={({ field }) => (
+                                                                <FormItem>
+                                                                    <FormLabel>Email Address</FormLabel>
+                                                                    <FormControl>
+                                                                        <Input type="email" placeholder="john.doe@example.com" {...field} />
+                                                                    </FormControl>
+                                                                    <FormMessage />
+                                                                </FormItem>
+                                                            )}
+                                                        />
+                                                        <Button type="submit" className="w-full" size="lg">
+                                                            Pay N15,000 with Flutterwave
+                                                        </Button>
+                                                    </form>
+                                                </Form>
+                                            )}
                                         </DialogContent>
                                     </Dialog>
                                 </CardContent>
