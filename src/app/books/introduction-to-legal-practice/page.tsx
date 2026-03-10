@@ -68,16 +68,16 @@ export default function BookDetailPage() {
                     setPaymentSuccess(true);
                     toast({
                         title: "Payment Successful",
-                        description: "Redirecting you to WhatsApp to complete your order details.",
+                        description: "Notifying the Professor via WhatsApp.",
                     });
 
                     const whatsAppNumber = "2348106468420";
-                    const messageBody = `Hello, I just paid N15000 for the book "Introduction to Legal Practice and Lawyering Skills in Nigeria".\n\nTransaction Ref: ${data.tx_ref}\nEmail: ${values.email}\nName: ${values.name}\n\nPlease confirm receipt and provide next steps for delivery. Thank you.`;
+                    const messageBody = `*Book Purchase Confirmation*\n\nHello, I have successfully paid N15000 for the book: "Introduction to Legal Practice and Lawyering Skills in Nigeria".\n\n*Transaction Details*:\n- Name: ${values.name}\n- Email: ${values.email}\n- Ref: ${data.tx_ref}\n- Status: ${data.status}\n\nPlease provide instructions for delivery. Thank you.`;
                     const whatsappUrl = `https://wa.me/${whatsAppNumber}?text=${encodeURIComponent(messageBody)}`;
                     
                     setTimeout(() => {
                         window.open(whatsappUrl, '_blank');
-                    }, 2000);
+                    }, 1000);
                 },
             });
         } else {
@@ -137,7 +137,7 @@ export default function BookDetailPage() {
                                                 <div className="flex flex-col items-center justify-center py-6 text-center">
                                                     <CheckCircle2 className="h-16 w-16 text-green-500 mb-4" />
                                                     <p className="font-medium">Transaction Verified</p>
-                                                    <p className="text-sm text-muted-foreground mt-2">A WhatsApp chat will open shortly.</p>
+                                                    <p className="text-sm text-muted-foreground mt-2">Opening WhatsApp...</p>
                                                 </div>
                                             ) : (
                                                 <Form {...form}>
@@ -149,7 +149,7 @@ export default function BookDetailPage() {
                                                                 <FormItem>
                                                                     <FormLabel>Full Name</FormLabel>
                                                                     <FormControl>
-                                                                        <Input placeholder="John Doe" {...field} />
+                                                                        <Input placeholder="Full Name" {...field} />
                                                                     </FormControl>
                                                                     <FormMessage />
                                                                 </FormItem>
@@ -162,7 +162,7 @@ export default function BookDetailPage() {
                                                                 <FormItem>
                                                                     <FormLabel>Email Address</FormLabel>
                                                                     <FormControl>
-                                                                        <Input type="email" placeholder="john.doe@example.com" {...field} />
+                                                                        <Input type="email" placeholder="Email Address" {...field} />
                                                                     </FormControl>
                                                                     <FormMessage />
                                                                 </FormItem>

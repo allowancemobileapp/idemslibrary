@@ -63,6 +63,10 @@ const formSchema = z.object({
 type Publication = (typeof allPublications)[0];
 
 export default function PublicationsPage() {
+    const [searchQuery, setSearchQuery] = useState('');
+    const [topicFilter, setTopicFilter] = useState('all');
+    const [yearFilter, setYearFilter] = useState('all');
+
     const years = [...new Set(allPublications.map(p => p.year).filter(y => y))].sort((a, b) => b.localeCompare(a));
     const topics = [...new Set(allPublications.map(p => p.topic).filter(t => t))].sort();
 
@@ -77,6 +81,14 @@ export default function PublicationsPage() {
             name: '',
             email: '',
         },
+    });
+
+    const filteredPublications = allPublications.filter((pub) => {
+        const matchesSearch = pub.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                             pub.summary.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesTopic = topicFilter === 'all' || pub.topic.toLowerCase().replace(' ', '-') === topicFilter;
+        const matchesYear = yearFilter === 'all' || pub.year === yearFilter;
+        return matchesSearch && matchesTopic && matchesYear;
     });
 
     const handlePurchaseClick = (publication: Publication) => {
@@ -111,29 +123,32 @@ export default function PublicationsPage() {
                     logo: "https://picsum.photos/seed/legal/200/200",
                 },
                 callback: (data: any) => {
-                    console.log("Payment successful", data);
                     setPaymentSuccess(selectedPub.title);
                     
                     toast({
                         title: "Payment Successful",
-                        description: "You can now download your article and notify the Professor on WhatsApp.",
+                        description: "Your article is ready for download.",
                     });
 
-                    // Auto redirect to WhatsApp as well for record keeping
+                    // Forward to WhatsApp
                     const whatsAppNumber = "2348106468420";
-                    const messageBody = `Hello, I just paid N1000 for the article "${selectedPub.title}".\n\nTransaction Ref: ${data.tx_ref}\nEmail: ${values.email}\nName: ${values.name}`;
+                    const messageBody = `*Article Purchase Confirmation*\n\nHello, I have successfully paid N1000 for the article: "${selectedPub.title}".\n\n*Transaction Details*:\n- Name: ${values.name}\n- Email: ${values.email}\n- Ref: ${data.tx_ref}\n- Status: ${data.status}`;
                     const whatsappUrl = `https://wa.me/${whatsAppNumber}?text=${encodeURIComponent(messageBody)}`;
-                    window.open(whatsappUrl, '_blank');
-                },
-                onclose: () => {
-                    console.log("Payment closed");
+                    
+                    // Automatically trigger download/open link
+                    window.open(selectedPub.url, '_blank');
+                    
+                    // Open WhatsApp in new tab
+                    setTimeout(() => {
+                        window.open(whatsappUrl, '_blank');
+                    }, 1000);
                 },
             });
         } else {
             toast({
                 variant: "destructive",
                 title: "Error",
-                description: "Payment system is loading. Please try again in a few seconds.",
+                description: "Payment system is loading. Please try again.",
             });
         }
     };
@@ -142,7 +157,7 @@ export default function PublicationsPage() {
         <>
             <section className="py-16 lg:py-24 bg-secondary">
                 <div className="container text-center">
-                    <h1 className="font-headline text-4xl md:text-5xl font-bold">Articles &amp; Publications</h1>
+                    <h1 className="font-headline text-4xl md:text-5xl font-bold">Articles & Publications</h1>
                     <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">A collection of peer-reviewed articles, book chapters, and scholarly work.</p>
                 </div>
             </section>
@@ -152,25 +167,31 @@ export default function PublicationsPage() {
                     <Card className="mb-8 p-4">
                         <div className="flex flex-wrap items-center gap-4">
                             <div className="flex-grow">
-                                <Input placeholder="Search publications by title or keyword..." />
+                                <Input 
+                                    placeholder="Search publications by title or keyword..." 
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                />
                             </div>
                             <div className="flex flex-wrap items-center gap-2">
                                 <Filter className="h-5 w-5 text-muted-foreground hidden sm:block" />
-                                <Select>
+                                <Select value={topicFilter} onValueChange={setTopicFilter}>
                                     <SelectTrigger className="w-full sm:w-[180px]">
                                         <SelectValue placeholder="Filter by Topic" />
                                     </SelectTrigger>
                                     <SelectContent>
+                                        <SelectItem value="all">All Topics</SelectItem>
                                         {topics.map(topic => (
                                             <SelectItem key={topic} value={topic.toLowerCase().replace(' ', '-')}>{topic}</SelectItem>
                                         ))}
                                     </SelectContent>
                                 </Select>
-                                <Select>
+                                <Select value={yearFilter} onValueChange={setYearFilter}>
                                     <SelectTrigger className="w-full sm:w-[180px]">
                                         <SelectValue placeholder="Filter by Year" />
                                     </SelectTrigger>
                                     <SelectContent>
+                                        <SelectItem value="all">All Years</SelectItem>
                                         {years.map(year => (
                                           <SelectItem key={year} value={year}>{year}</SelectItem>
                                         ))}
@@ -181,7 +202,7 @@ export default function PublicationsPage() {
                     </Card>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {allPublications.map((pub) => {
+                        {filteredPublications.map((pub) => {
                              return (
                                 <Card key={pub.title} className="flex flex-col overflow-hidden hover:shadow-xl transition-shadow">
                                     <CardHeader>
@@ -214,7 +235,7 @@ export default function PublicationsPage() {
                             <DialogTitle>{paymentSuccess ? 'Payment Successful' : 'Purchase Article'}</DialogTitle>
                             <DialogDescription>
                                 {paymentSuccess 
-                                    ? `Thank you for your purchase. You can now download the article "${selectedPub.title}".`
+                                    ? `Thank you! You can download the article "${selectedPub.title}" below if it didn't open automatically.`
                                     : `To purchase "${selectedPub.title}", please provide your details and proceed to payment.`
                                 }
                             </DialogDescription>
@@ -224,15 +245,15 @@ export default function PublicationsPage() {
                             <div className="space-y-6 py-4">
                                 <div className="flex flex-col items-center justify-center text-center space-y-4">
                                     <CheckCircle2 className="h-16 w-16 text-green-500" />
-                                    <h4 className="font-bold text-lg">Download Ready</h4>
+                                    <h4 className="font-bold text-lg">Transaction Complete</h4>
                                     <Button asChild className="w-full" size="lg">
                                         <a href={selectedPub.url} target="_blank" rel="noopener noreferrer">
                                             <Download className="mr-2 h-5 w-5" />
-                                            Download Article
+                                            Manual Download Link
                                         </a>
                                     </Button>
                                     <p className="text-xs text-muted-foreground">
-                                        Note: The Professor has also been notified of your purchase via WhatsApp.
+                                        A WhatsApp notification has been prepared for the Professor.
                                     </p>
                                 </div>
                             </div>
@@ -246,7 +267,7 @@ export default function PublicationsPage() {
                                             <FormItem>
                                                 <FormLabel>Full Name</FormLabel>
                                                 <FormControl>
-                                                    <Input placeholder="John Doe" {...field} />
+                                                    <Input placeholder="Full Name" {...field} />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -259,7 +280,7 @@ export default function PublicationsPage() {
                                             <FormItem>
                                                 <FormLabel>Email Address</FormLabel>
                                                 <FormControl>
-                                                    <Input type="email" placeholder="john.doe@example.com" {...field} />
+                                                    <Input type="email" placeholder="Email Address" {...field} />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
